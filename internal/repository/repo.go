@@ -2,9 +2,14 @@ package repository
 
 import "go.mongodb.org/mongo-driver/mongo"
 
-type Repository struct {
+type Tokens interface {
+	GetTokens(guid, refToken string) error
 }
 
-func NewRepository(db *mongo.Client) *Repository {
-	return &Repository{}
+type Repository struct {
+	Tokens
+}
+
+func NewRepository(db *mongo.Collection) *Repository {
+	return &Repository{Tokens: NewTokensRepo(db)}
 }

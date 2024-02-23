@@ -36,7 +36,7 @@ func (m *Manager) NewAccessToken(guid string, ttl time.Duration) (string, error)
 }
 
 func (m *Manager) NewRefreshToken() (string, error) {
-	a := make([]byte, 32)
+	a := make([]byte, 24)
 
 	src := rand.NewSource(time.Now().Unix())
 	rnd := rand.New(src)
