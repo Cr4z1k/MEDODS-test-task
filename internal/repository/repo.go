@@ -1,9 +1,15 @@
 package repository
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"github.com/Cr4z1k/MEDODS-test-task/internal/core"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type Tokens interface {
-	GetTokens(guid, refToken string) error
+	UpdateRefTokenInfo(user core.UserToken) error
+	CheckRefresh(objectID primitive.ObjectID, refToken []byte) (core.UserToken, error)
+	GetUserByGuid(user core.UserRefToken) (core.UserToken, error)
 }
 
 type Repository struct {

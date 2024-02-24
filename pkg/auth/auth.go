@@ -11,7 +11,7 @@ import (
 
 type TokenManager interface {
 	NewAccessToken(guid string, ttl time.Duration) (string, error)
-	NewRefreshToken() (string, error)
+	NewRefreshToken(objectID string) (string, error)
 }
 
 type Manager struct {
@@ -35,8 +35,8 @@ func (m *Manager) NewAccessToken(guid string, ttl time.Duration) (string, error)
 	return token.SignedString([]byte(m.signingKey))
 }
 
-func (m *Manager) NewRefreshToken() (string, error) {
-	a := make([]byte, 24)
+func (m *Manager) NewRefreshToken(objectID string) (string, error) {
+	a := make([]byte, 10)
 
 	src := rand.NewSource(time.Now().Unix())
 	rnd := rand.New(src)
@@ -44,6 +44,8 @@ func (m *Manager) NewRefreshToken() (string, error) {
 	if _, err := rnd.Read(a); err != nil {
 		return "", err
 	}
+
+	a = append(a, []byte(objectID)...)
 
 	return fmt.Sprintf("%x", a), nil
 }

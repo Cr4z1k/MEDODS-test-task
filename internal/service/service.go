@@ -8,6 +8,7 @@ import (
 
 type Tokens interface {
 	GetTokens(guid string) (core.Tokens, error)
+	RefreshTokens(refTokenBase64 string) (core.Tokens, error)
 }
 
 type Service struct {
