@@ -4,13 +4,19 @@ import (
 	"net/http"
 
 	"github.com/Cr4z1k/MEDODS-test-task/internal/core"
+	"github.com/beevik/guid"
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) GetTokens(c *gin.Context) {
-	guid := c.Param("guid")
+	g := c.Param("guid")
 
-	tokens, err := h.s.GetTokens(guid)
+	if !guid.IsGuid(g) {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"err": "not a GUID given in url param"})
+		return
+	}
+
+	tokens, err := h.s.GetTokens(g)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
