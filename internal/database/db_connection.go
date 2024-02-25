@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"os"
 
 	"github.com/Cr4z1k/MEDODS-test-task/internal/config"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,7 +15,7 @@ func GetConnection() (*mongo.Collection, error) {
 		return nil, err
 	}
 
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(connectionConf.URI))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("URI")))
 	if err != nil {
 		return nil, err
 	}

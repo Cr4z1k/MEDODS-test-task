@@ -7,7 +7,6 @@ import (
 )
 
 type Config struct {
-	URI            string `yaml:"uri"`
 	DbName         string `yaml:"db_name"`
 	CollectionName string `yaml:"collection_name"`
 }
@@ -26,7 +25,6 @@ func GetConnection() (*Config, error) {
 	}
 
 	result := Config{
-		conf.URI,
 		conf.DbName,
 		conf.CollectionName,
 	}
